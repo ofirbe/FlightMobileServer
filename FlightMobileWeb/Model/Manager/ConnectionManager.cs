@@ -26,7 +26,6 @@ namespace FlightMobileApp.Model.Managers
         private readonly BlockingCollection<AsyncCommand> _queue;
         private ITelnetClient telnetClientHandler;
         private bool isConnected;
-        private double readbackGarbage;
         private string ip = "none";
         private int port = -1;
         // CTOR
@@ -55,13 +54,13 @@ namespace FlightMobileApp.Model.Managers
         public void ProcessCommands()
         {
 
-            int checkConnect = this.connect(this.ip, this.port);
+            int checkConnect = this.Connect(this.ip, this.port);
             foreach (AsyncCommand command in _queue.GetConsumingEnumerable())
             {
                 Result res;
                 try
                 {
-                    res = (Result)this.setAllValues(command.Command);
+                    res = (Result)this.SetAllValues(command.Command);
                 }
                 catch
                 {
@@ -93,7 +92,7 @@ namespace FlightMobileApp.Model.Managers
         /*
          * The method connect to the server by using the telnet client
          */
-        public int connect(string ip, int port)
+        public int Connect(string ip, int port)
         {
             int check = 0;
             try
@@ -105,7 +104,7 @@ namespace FlightMobileApp.Model.Managers
             catch
             {
                 // disconnect in case of error
-                this.disconnect();
+                this.Disconnect();
             }
             return check;
         }
@@ -113,7 +112,7 @@ namespace FlightMobileApp.Model.Managers
         /*
          * The method disconnect to the server by using the telnet client
          */
-        public void disconnect()
+        public void Disconnect()
         {
             if (isConnected == true)
             {
@@ -124,39 +123,39 @@ namespace FlightMobileApp.Model.Managers
 
         /*
          * The method set the all values by the command values it gets and by using the telnet client, and if there is any kind of prolbem in the command sending, the method return 1.
+         * for evrey single value that we need to set, we send to the server "set" command and then "get" command, reed the feedback from the server and check if the values are equals
          */
-        public int setAllValues(Command command)
+        public int SetAllValues(Command command)
         {
             try
             {
-                // if (this.isConnected == true)
                 if (telnetClientHandler.isConnected())
                 {
                     string tmp = "";
 
                     telnetClientHandler.write("set /controls/flight/aileron " + String.Format("{0:0.##}", command.Aileron) + "\r\n");
-                    /*   telnetClientHandler.write("get /controls/flight/aileron" + "\r\n");
-                       tmp = telnetClientHandler.read();
-                       if (tryToConvert(tmp) == true)
-                       {
-                           if (command.Aileron != double.Parse(tmp))
-                           {
-                               return 1; //notOk
-                           }
-                       }*/
+                    telnetClientHandler.write("get /controls/flight/aileron" + "\r\n");
+                    tmp = telnetClientHandler.read();
+                    if (tryToConvert(tmp) == true)
+                    {
+                        if (command.Aileron != double.Parse(tmp))
+                        {
+                            return 1; //notOk
+                        }
+                    }
 
                     telnetClientHandler.write("set /controls/engines/current-engine/throttle " + String.Format("{0:0.##}", command.Throttle) + "\r\n");
-                    /* telnetClientHandler.write("get /controls/engines/current-engine/throttle" + "\r\n");
-                     tmp = this.telnetClientHandler.read();
-                     if (tryToConvert(tmp) == true)
-                     {
-                         if (command.Throttle != double.Parse(tmp))
-                         {
-                             return 1; //notOk
-                         }
-                     }*/
+                    telnetClientHandler.write("get /controls/engines/current-engine/throttle" + "\r\n");
+                    tmp = this.telnetClientHandler.read();
+                    if (tryToConvert(tmp) == true)
+                    {
+                        if (command.Throttle != double.Parse(tmp))
+                        {
+                            return 1; //notOk
+                        }
+                    }
                     telnetClientHandler.write("set /controls/flight/elevator " + String.Format("{0:0.##}", command.Elevator) + "\r\n");
-                    /*telnetClientHandler.write("get /controls/flight/elevator" + "\r\n");
+                    telnetClientHandler.write("get /controls/flight/elevator" + "\r\n");
                     tmp = this.telnetClientHandler.read();
                     if (tryToConvert(tmp) == true)
                     {
@@ -164,17 +163,17 @@ namespace FlightMobileApp.Model.Managers
                         {
                             return 1; //notOk
                         }
-                    }*/
+                    }
                     telnetClientHandler.write("set /controls/flight/rudder " + String.Format("{0:0.##}", command.Rudder) + "\r\n");
-                    /* telnetClientHandler.write("get /controls/flight/rudder" + "\r\n");
-                     tmp = this.telnetClientHandler.read();
-                     if (tryToConvert(tmp) == true)
-                     {
-                         if (command.Rudder != double.Parse(tmp))
-                         {
-                             return 1; //notOk
-                         }
-                     }*/
+                    telnetClientHandler.write("get /controls/flight/rudder" + "\r\n");
+                    tmp = this.telnetClientHandler.read();
+                    if (tryToConvert(tmp) == true)
+                    {
+                        if (command.Rudder != double.Parse(tmp))
+                        {
+                            return 1; //notOk
+                        }
+                    }
                 }
                 return 0; //Ok
             }

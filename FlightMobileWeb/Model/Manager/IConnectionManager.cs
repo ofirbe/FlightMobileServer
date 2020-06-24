@@ -12,8 +12,8 @@ namespace FlightMobileApp.Manager
         public Task<Result> Execute(Command cmd);
         public void Start();
         public void ProcessCommands();
-        public int connect(string ip, int port);
-        public void disconnect();
-        public int setAllValues(Command command);
+        public int Connect(string ip, int port);
+        public void Disconnect();
+        public int SetAllValues(Command command);
     }
 }
