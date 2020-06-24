@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30204.135
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlightMobileWeb", "FlightMobileWeb\FlightMobileWeb.csproj", "{12965F86-8E0C-4C6D-A54F-CDBC480F8B4A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{12965F86-8E0C-4C6D-A54F-CDBC480F8B4A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{12965F86-8E0C-4C6D-A54F-CDBC480F8B4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{12965F86-8E0C-4C6D-A54F-CDBC480F8B4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{12965F86-8E0C-4C6D-A54F-CDBC480F8B4A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {ACE02180-4662-4043-B540-C589D4F3E561}
+	EndGlobalSection
+EndGlobal
